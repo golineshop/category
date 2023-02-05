@@ -1,39 +1,115 @@
 syntax = "proto3";
 
-package category;
+package go.micro.service.category;
 
-option go_package = "./proto;category";
+option go_package = "./;go_micro_service_category";
 
 service Category {
-	rpc Call(Request) returns (Response) {}
-	rpc Stream(StreamingRequest) returns (stream StreamingResponse) {}
-	rpc PingPong(stream Ping) returns (stream Pong) {}
+    //创建分类
+    rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse) {}
+    //更新分类
+    rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse) {}
+    //删除分类
+    rpc DeleteCategory(DeleteCategoryRequest) returns (DeleteCategoryResponse) {}
+    //根据名称查找
+    rpc FindCategoryByName(FindByNameRequest) returns (FindByNameResponse) {}
+    //根据ID查找
+    rpc FindCategoryByID(FindByIDRequest) returns (FindByIDResponse) {}
+    //根据分类层级查找
+    rpc FindCategoryByLevel(FindByLevelRequest) returns (FindByLevelResponse) {}
+    //根据父级分类查找
+    rpc FindCategoryByParent(FindByParentRequest) returns (FindByParentResponse) {}
+    //查找所有分类
+    rpc FindAllCategory(FindAllRequest) returns (FindAllResponse){}
 }
 
-message Message {
-	string say = 1;
+message CreateCategoryRequest {
+    string category_name = 1;
+    uint32 category_level = 2;
+    int64 category_parent = 3;
+    string category_image = 4;
+    string category_description = 5;
 }
 
-message Request {
-	string name = 1;
+message CreateCategoryResponse {
+    string message = 1;
+    int64 category_id = 2;
 }
 
-message Response {
-	string msg = 1;
+message UpdateCategoryRequest {
+    string category_name = 1;
+    uint32 category_level = 2;
+    int64 category_parent = 3;
+    string category_image = 4;
+    string category_description = 5;
 }
 
-message StreamingRequest {
-	int64 count = 1;
+message UpdateCategoryResponse {
+    string message = 1;
 }
 
-message StreamingResponse {
-	int64 count = 1;
+message DeleteCategoryRequest {
+    int64 category_id = 1;
 }
 
-message Ping {
-	int64 stroke = 1;
+message DeleteCategoryResponse {
+    string message = 1;
 }
 
-message Pong {
-	int64 stroke = 1;
+message FindByNameRequest {
+    string category_name = 1;
+}
+
+message FindByNameResponse {
+    int64 category_id = 1;
+    string category_name = 2;
+    uint32 category_level = 3;
+    int64 category_parent = 4;
+    string category_image = 5;
+    string category_description = 6;
+}
+
+message FindByIDRequest {
+    int64 category_id = 1;
+}
+
+message FindByIDResponse {
+    int64 category_id = 1;
+    string category_name = 2;
+    uint32 category_level = 3;
+    int64 category_parent = 4;
+    string category_image = 5;
+    string category_description = 6;
+}
+
+message FindByLevelRequest {
+    uint32 category_level = 1;
+}
+
+message FindByLevelResponse {
+    repeated CategoryResponse category =1;
+}
+
+message FindByParentRequest {
+    int64 category_parent = 1;
+}
+
+message FindByParentResponse {
+    repeated CategoryResponse category =1;
+}
+
+message FindAllRequest {
+    //empty
+}
+
+message FindAllResponse {
+    repeated CategoryResponse category =1;
+}
+
+message CategoryResponse {
+    string category_name = 1;
+    uint32 category_level = 2;
+    int64 category_parent = 3;
+    string category_image = 4;
+    string category_description = 5;
 }

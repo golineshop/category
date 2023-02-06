@@ -42,6 +42,7 @@ func (c *CategoryRepository) InitTable() (err error) {
 
 // FindCategoryByID 根据ID查找分类
 func (c *CategoryRepository) FindCategoryByID(id int64) (category *model.Category, err error) {
+	category = &model.Category{}
 	return category, c.mysqlDb.First(category, id).Error
 }
 
@@ -67,6 +68,7 @@ func (c *CategoryRepository) FindAll() (categoryList []model.Category, err error
 
 // FindCategoryByName 根据名字查找分类
 func (c *CategoryRepository) FindCategoryByName(name string) (category *model.Category, err error) {
+	category = &model.Category{}
 	return category, c.mysqlDb.Where("category_name = ?", name).Find(category).Error
 }
 

@@ -10,7 +10,7 @@ import (
 )
 
 type CategoryController struct {
-	CategoryService service.CategoryService
+	CategoryService service.ICategoryService
 }
 
 // CreateCategory 创建分类
